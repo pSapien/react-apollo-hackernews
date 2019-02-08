@@ -13,30 +13,31 @@ const links = [
   },
 ];
 
-const typeDefs = `
-type Query {
-  info: String!
-  feed: [Link!]!
-}
-
-type Link {
-  id: ID!
-  description: String!
-  url: String!
-}`;
+let idCount = links.length;
 
 const resolvers = {
   Query: {
     info: () => 'This is the hackernews clone',
     feed: () => links,
   },
-  Link: {
-    id: parent => parent.id,
-    description: parent => parent.description,
-    url: parent => parent.url,
+  Mutation: {
+    post: (parent, args) => {
+      const { url, description } = args;
+      const link = {
+        id: `link-${idCount++}`,
+        description,
+        url,
+      };
+
+      links.push(link);
+      return link;
+    },
   },
 };
 
-const server = new GraphQLServer({ typeDefs, resolvers });
+const server = new GraphQLServer({
+  typeDefs: './server/schema.graphql',
+  resolvers,
+});
 
 server.start(() => console.log('Server is now running. Yeah!'));
