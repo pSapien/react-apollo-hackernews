@@ -1,6 +1,6 @@
 const { GraphQLServer } = require('graphql-yoga');
 
-const links = [
+let links = [
   {
     id: 'link-0',
     url: 'www.howtographql.com',
@@ -31,6 +31,21 @@ const resolvers = {
 
       links.push(link);
       return link;
+    },
+
+    updateLink: (parent, args) => {
+      const { id, url, description } = args;
+      console.log(links.filter(l => l.id !== id));
+
+      links = [...links.filter(l => l.id !== id), { id, url, description }];
+
+      return { id, url, description };
+    },
+
+    deleteLink: (parent, args) => {
+      const { id } = args;
+      links = links.filter(l => l.id !== id);
+      return { id };
     },
   },
 };
