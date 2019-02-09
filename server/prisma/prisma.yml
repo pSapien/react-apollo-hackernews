@@ -1,0 +1,8 @@
+#endpoint: ''
+endpoint: https://eu1.prisma.sh/prateek-thapa-b57f31/hackerNews/staging_hackerNews
+
+datamodel: datamodel.prisma
+
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma.client

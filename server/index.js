@@ -35,7 +35,6 @@ const resolvers = {
 
     updateLink: (parent, args) => {
       const { id, url, description } = args;
-      console.log(links.filter(l => l.id !== id));
 
       links = [...links.filter(l => l.id !== id), { id, url, description }];
 
