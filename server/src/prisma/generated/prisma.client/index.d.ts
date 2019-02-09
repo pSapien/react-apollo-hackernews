@@ -502,6 +502,7 @@ export interface LinkUpdateWithWhereUniqueWithoutPostedByInput {
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  email?: String;
 }>;
 
 export interface NodeNode {

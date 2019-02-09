@@ -1,26 +1,13 @@
+const path = require('path');
 const { GraphQLServer } = require('graphql-yoga');
 
 const { prisma } = require('./prisma/generated/prisma.client');
-
-const resolvers = {
-  Query: {
-    info: () => 'This is the API of a hackernews clone',
-    feed: (root, args, ctx, info) => {
-      return ctx.prisma.links();
-    },
-  },
-  Mutation: {
-    post: (root, args, ctx) => {
-      const { url, description } = args;
-      return ctx.prisma.createLink({ url, description });
-    },
-  },
-};
+const { Query, User, Link, Mutation } = require('./resolvers');
 
 const server = new GraphQLServer({
-  typeDefs: './schema.graphql',
-  resolvers,
-  context: { prisma },
+  typeDefs: path.join(__dirname, 'schema.graphql'),
+  resolvers: { Query, User, Link, Mutation },
+  context: request => ({ ...request, prisma }),
 });
 
 server.start(() => console.log('Server is now running. Yeah!'));
